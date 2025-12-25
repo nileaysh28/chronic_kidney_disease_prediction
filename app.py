@@ -103,6 +103,9 @@ if drug_column in input_df.columns:
 
 if st.button("Predict CKD Risk"):
     prediction = model.predict(input_df)[0]
+    probabilities = model.predict_proba(input_df)[0]
+
+    st.subheader("Prediction Result")
 
     if prediction == 0:
         st.success("🟢 Low Risk of CKD")
@@ -110,5 +113,12 @@ if st.button("Predict CKD Risk"):
         st.warning("🟡 Moderate Risk of CKD")
     else:
         st.error("🔴 High Risk of CKD")
+
+    st.subheader("Prediction Probabilities")
+
+    st.write(f"Low Risk      : {probabilities[0]*100:.2f}%")
+    st.write(f"Moderate Risk : {probabilities[1]*100:.2f}%")
+    st.write(f"High Risk     : {probabilities[2]*100:.2f}%")
+
 
 model.predict_proba(input_df)
